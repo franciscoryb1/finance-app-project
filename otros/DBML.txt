@@ -1,0 +1,110 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table users {
+  id serial [primary key]
+  auth_id varchar(255) [not null, unique]
+  email varchar(255) [not null, unique]
+  name varchar(100)
+  currency varchar(3) [default: 'USD']
+  created_at timestamp [default: `now()`]
+}
+
+Table banks {
+  id serial [primary key]
+  user_id integer [not null]
+  name varchar(100) [not null]
+  type varchar(20) [not null, note: "'bank', 'ewallet', 'cash'"]
+  balance decimal(12,2) [default: 0.00]
+  is_active boolean [default: true]
+  created_at timestamp [default: `now()`]
+}
+
+Table credit_cards {
+  id serial [primary key]
+  user_id integer [not null]
+  bank_id integer [not null]
+  name varchar(100) [not null]
+  last_four varchar(4) [not null]
+  due_day integer [note: "Día de vencimiento (1-31)"]
+  closing_day integer [note: "Día de cierre (1-31)"]
+  credit_limit decimal(12,2) [default: 0.00]
+  current_balance decimal(12,2) [default: 0.00]
+  interest_rate decimal(5,2) [default: 0.00]
+  is_active boolean [default: true]
+  created_at timestamp [default: `now()`]
+}
+
+Table categories {
+  id serial [primary key]
+  user_id integer [note: "NULL para categorías del sistema"]
+  name varchar(50) [not null]
+  icon varchar(30) [default: 'receipt']
+  color varchar(7) [default: '#6c757d']
+}
+
+Table transactions {
+  id serial [primary key]
+  user_id integer [not null]
+  bank_id integer
+  credit_card_id integer
+  category_id integer
+  amount decimal(12,2) [not null, note: "Negativo=gasto, Positivo=ingreso"]
+  description varchar(255)
+  type varchar(10) [not null, note: "'income' o 'expense'"]
+  payment_method varchar(20) [not null, note: "'cash', 'debit', 'credit', 'transfer'"]
+  date date [not null]
+  is_recurring boolean [default: false]
+  created_at timestamp [default: `now()`]
+}
+
+Table billing_cycles {
+  id serial [primary key]
+  credit_card_id integer [not null]
+  start_date date [not null]
+  end_date date [not null]
+  due_date date [not null]
+  total_spent decimal(12,2) [default: 0.00]
+  paid_amount decimal(12,2) [default: 0.00]
+  status varchar(20) [default: 'open', note: "'open', 'closed', 'paid', 'overdue'"]
+}
+
+Table credit_card_transactions {
+  id serial [primary key]
+  credit_card_id integer [not null]
+  billing_cycle_id integer [not null]
+  amount decimal(12,2) [not null]
+  description varchar(255) [not null]
+  date date [not null]
+  category_id integer
+  installments integer [default: 1]
+  is_installment boolean [default: false]
+  parent_transaction_id integer
+}
+
+Table debts {
+  id serial [primary key]
+  user_id integer [not null]
+  creditor_name varchar(100) [not null]
+  initial_amount decimal(12,2) [not null]
+  pending_amount decimal(12,2) [not null]
+  interest_rate decimal(5,2) [default: 0.00]
+  due_date date
+  status varchar(20) [default: 'active', note: "'active', 'paid', 'overdue'"]
+  created_at timestamp [default: `now()`]
+}
+
+// Relaciones
+Ref: users.id < banks.user_id
+Ref: users.id < credit_cards.user_id
+Ref: users.id < transactions.user_id
+Ref: users.id < debts.user_id
+Ref: banks.id < credit_cards.bank_id
+Ref: categories.id < transactions.category_id
+Ref: banks.id < transactions.bank_id
+Ref: credit_cards.id < transactions.credit_card_id
+Ref: credit_cards.id < billing_cycles.credit_card_id
+Ref: billing_cycles.id < credit_card_transactions.billing_cycle_id
+Ref: credit_cards.id < credit_card_transactions.credit_card_id
+Ref: categories.id < credit_card_transactions.category_id
+Ref: credit_card_transactions.id < credit_card_transactions.parent_transaction_id
