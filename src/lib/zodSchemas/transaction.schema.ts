@@ -11,3 +11,5 @@ export const transactionSchema = z.object({
   bank_id: z.number().optional(),
   credit_card_id: z.number().optional(),
 })
+
+export type TransactionFormData = z.infer<typeof transactionSchema>

@@ -2,18 +2,27 @@
 
 import * as React from "react"
 import {
+  IconBellDollar,
   IconCamera,
   IconChartBar,
+  IconCloudDollar,
+  IconCreditCard,
+  IconCurrencyDollar,
   IconDashboard,
   IconDatabase,
+  IconEyeDollar,
   IconFileAi,
   IconFileDescription,
   IconFileWord,
+  IconFlagDollar,
   IconFolder,
   IconHelp,
   IconHome,
+  IconHomeDollar,
   IconInnerShadowTop,
   IconListDetails,
+  IconMoneybag,
+  IconMoneybagPlus,
   IconReport,
   IconSearch,
   IconSettings,
@@ -47,29 +56,9 @@ const data = {
       icon: IconHome,
     },
     {
-      title: "Dashboard",
+      title: "Transactions",
       url: "#",
-      icon: IconDashboard,
-    },
-    {
-      title: "Lifecycle",
-      url: "#",
-      icon: IconListDetails,
-    },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
+      icon: IconCreditCard,
     },
   ],
   navClouds: [
@@ -166,9 +155,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
-                <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+              <a href="/">
+                <IconCurrencyDollar className="!size-5" />
+                <span className="text-base font-semibold">Expense Tracker</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -176,8 +165,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        {/* <NavDocuments items={data.documents} /> */}
+        {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
