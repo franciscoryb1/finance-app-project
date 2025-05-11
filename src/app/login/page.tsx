@@ -1,6 +1,5 @@
 import { auth0 } from "@/lib/auth0";
 import { redirect } from "next/navigation";
-import { LoginForm } from "@/components/login-form";
 import { AuthButton } from "@/components/AuthButton";
 
 export const dynamic = "force-dynamic";

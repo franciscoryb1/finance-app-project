@@ -1,14 +1,24 @@
-// app/layout.tsx
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarInset } from "@/components/ui/sidebar";
-import { SiteHeader } from "@/components/site-header";
+// app/(app)/layout.tsx
+import { auth0 } from "@/lib/auth0"
+import { redirect } from "next/navigation"
 
-export default function RootLayout({
+import { SidebarProvider } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-sidebar"
+import { SidebarInset } from "@/components/ui/sidebar"
+import { SiteHeader } from "@/components/site-header"
+
+export default async function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
+  const session = await auth0.getSession()
+  const user = session?.user
+
+  if (!user) {
+    redirect("/login")
+  }
+
   return (
     <html lang="es">
       <body>
@@ -25,5 +35,5 @@ export default function RootLayout({
         </SidebarProvider>
       </body>
     </html>
-  );
+  )
 }
