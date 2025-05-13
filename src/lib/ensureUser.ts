@@ -22,7 +22,5 @@ export async function ensureUserExists() {
     });
   }
 
-  console.log(dbUser);
-
   return dbUser;
 }
