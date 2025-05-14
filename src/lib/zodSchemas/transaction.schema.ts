@@ -16,6 +16,7 @@ export const transactionFormSchema = baseTransactionSchema
 
 // ✅ Para el backend (POST o PUT): lo usás en API
 export const transactionSchemaWithUser = baseTransactionSchema.extend({
+  id: z.number().int().positive(),
   user_id: z.number().int().positive(),
 })
 
