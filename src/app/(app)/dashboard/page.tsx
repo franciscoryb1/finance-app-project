@@ -2,14 +2,18 @@
 import CardSummary from "@/components/CardSummary"
 import CardDetails from "@/components/CardDetails"
 import LastMovements from "@/components/LastMovements"
-import NewTransaction from "@/components/NewTransaction"
+import NewTransaction from "@/app/(app)/dashboard/components/NewTransaction"
 import Insights from "@/components/Insights"
-import TransactionsTable from "@/components/TransactionsTable"
+import TransactionsTable from "@/app/(app)/dashboard/components/TransactionsTable"
 import { DataTable } from "@/components/data-table"
 
 import data from "./data.json";
+import { getTransactions } from "@/actions/getTransactions"
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+
+  const transactions = await getTransactions()
+
   return (
     <div className="p-4 grid grid-cols-1 lg:grid-cols-3 gap-4">
       {/* Columna izquierda */}
@@ -27,7 +31,7 @@ export default function DashboardPage() {
 
       {/* Fila completa abajo */}
       <div className="lg:col-span-3">
-        <DataTable data={data} />
+        <DataTable data={transactions} />
       </div>
     </div>
   )
