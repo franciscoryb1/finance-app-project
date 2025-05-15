@@ -60,6 +60,11 @@ const data = {
       url: "#",
       icon: IconCreditCard,
     },
+    {
+      title: "Banks",
+      url: "/banks",
+      icon: IconCreditCard,
+    },
   ],
   navClouds: [
     {
