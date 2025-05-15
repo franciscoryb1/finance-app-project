@@ -18,5 +18,13 @@ export const bankListSchema = bankSchema.pick({
   is_active: true,
 })
 
+// Formulario de creación/edición
+export const bankFormSchema = bankSchema.omit({
+  id: true,
+  user_id: true,
+  created_at: true,
+})
+
 export type Bank = z.infer<typeof bankSchema>
 export type BankListItem = z.infer<typeof bankListSchema>
+export type BankFormData = z.infer<typeof bankFormSchema>
