@@ -1,27 +1,22 @@
-import { NextRequest, NextResponse } from "next/server"
-import { prisma } from "@/lib/prisma"
+// app/api/banks/route.ts
+
+import { NextResponse } from "next/server"
 import { ensureUserExists } from "@/lib/ensureUser"
+import { prisma } from "@/lib/prisma"
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const user = await ensureUserExists()
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-
-  const { searchParams } = new URL(request.url)
-  const includeInactive = searchParams.get("includeInactive") === "true"
-  const type = searchParams.get("type")
+  if (!user) return NextResponse.json([], { status: 401 })
 
   const banks = await prisma.bank.findMany({
-    where: {
-      user_id: user.id,
-      ...(includeInactive ? {} : { is_active: true }),
-      ...(type ? { type } : {}),
-    },
+    where: { user_id: user.id },
     select: {
       id: true,
       name: true,
       type: true,
       is_active: true,
     },
+    orderBy: { name: "asc" },
   })
 
   return NextResponse.json(banks)
