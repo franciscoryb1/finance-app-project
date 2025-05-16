@@ -81,7 +81,6 @@ export default function TransactionForm({ onSuccess }: { onSuccess?: () => void 
       return
     }
     const result = await response.json()
-    console.log("Transacción guardada:", result)
 
     reset({
       date: new Date().toISOString(),
@@ -144,7 +143,7 @@ export default function TransactionForm({ onSuccess }: { onSuccess?: () => void 
       {/* Medio de pago */}
       <div>
         <Label className="mb-2 block">Medio de pago</Label>
-        <Select onValueChange={(val) => setValue("payment_method", val as TransactionFormData["payment_method"]) }>
+        <Select onValueChange={(val) => setValue("payment_method", val as TransactionFormData["payment_method"])}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Seleccionar medio" />
           </SelectTrigger>

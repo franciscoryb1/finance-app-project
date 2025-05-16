@@ -20,9 +20,6 @@ export async function GET(request: NextRequest) {
       name: "asc",
     },
   })
-
-  console.log("categories", categories);
-  console.log("user", user);
-
+  
   return NextResponse.json(categories)
 }
