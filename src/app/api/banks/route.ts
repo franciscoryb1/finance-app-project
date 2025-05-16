@@ -9,7 +9,7 @@ export async function GET() {
   if (!user) return NextResponse.json([], { status: 401 })
 
   const banks = await prisma.bank.findMany({
-    where: { user_id: user.id },
+    where: { user_id: user.id, is_active: true },
     select: {
       id: true,
       name: true,
