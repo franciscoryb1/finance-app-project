@@ -42,7 +42,7 @@ export default function TransactionForm({ onSuccess }: { onSuccess?: () => void 
 
   useEffect(() => {
     const fetchBanks = async () => {
-      const res = await fetch("/api/banks?type=bank")
+      const res = await fetch("/api/banks?is_active=true")
       const data = await res.json()
       setBanks(data)
     }
